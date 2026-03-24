@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@import "@fontsource-variable/geist/index.css";
+@import "@fontsource/plus-jakarta-sans/index.css";
+
+@theme {
+  --font-sans: 'Geist Variable', sans-serif;
+  --font-heading: 'Plus Jakarta Sans', sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand: var(--brand);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+}
+
+@layer base {
+  :root {
+    --brand: #DF8F12;
+    --background: #FAFAF7; /* Blanco con un sutil tono cremoso */
+    --foreground: #000000; /* Negro puro para los textos */
+    --surface: #FFFFFF;
+    --border: #E5E5E5;
+  }
+
+  :root.dark {
+    --brand: #DF8F12;
+    --background: #000000; /* Negro puro para el fondo */
+    --foreground: #FFFFFF; /* Blanco puro para textos */
+    --surface: #171717;
+    --border: #333333;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not(.light) {
+      --brand: #DF8F12;
+      --background: #000000;
+      --foreground: #FFFFFF;
+      --surface: #171717;
+      --border: #333333;
+    }
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

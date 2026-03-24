@@ -1,0 +1,51 @@
+---
+// Clock.astro
+---
+
+<minimal-clock class="flex flex-col text-sm text-foreground/80 font-medium">
+  <span class="time tracking-widest font-mono text-[15px]">00 : 00 : 00</span>
+  <span class="date text-xs text-foreground/50 mt-0.5 capitalize font-mono">--</span>
+</minimal-clock>
+
+<script>
+  class MinimalClock extends HTMLElement {
+    intervalId: number | null = null;
+    
+    connectedCallback() {
+      const timeEl = this.querySelector('.time');
+      const dateEl = this.querySelector('.date');
+
+      const update = () => {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        
+        if (timeEl) {
+          timeEl.textContent = `${hours} : ${minutes} : ${seconds}`;
+        }
+
+        if (dateEl) {
+          // Obtener la fecha en formato día, mes y año
+          const dateString = now.toLocaleDateString('es-ES', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+          });
+          dateEl.textContent = dateString;
+        }
+      };
+
+      update();
+      this.intervalId = window.setInterval(update, 1000);
+    }
+
+    disconnectedCallback() {
+      if (this.intervalId !== null) {
+        window.clearInterval(this.intervalId);
+      }
+    }
+  }
+
+  customElements.define('minimal-clock', MinimalClock);
+</script>
