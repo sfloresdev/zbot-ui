@@ -5,9 +5,11 @@ import Footer from "../components/common/Footer.astro";
 
 interface Props {
   title: string;
+  requiresAdmin?: boolean;
 }
 
-const { title } = Astro.props;
+const { title, requiresAdmin = false } = Astro.props;
+const isLoginPage = Astro.url.pathname === "/login";
 ---
 
 <!doctype html>
@@ -18,14 +20,47 @@ const { title } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    <script is:inline>
+      (function () {
+        const session = localStorage.getItem("zbot-session");
+        const path = window.location.pathname;
+
+        if (!session || !JSON.parse(session).isAuthenticated) {
+          if (path !== "/login") window.location.href = "/login";
+          return;
+        }
+
+        const auth = JSON.parse(session);
+
+        if (auth.isAuthenticated && path === '/login') {
+          window.location.href = '/';
+          return ;
+        }
+
+        const needsAdmin = document.documentElement.dataset.adminRequired === 'true';
+        if (needsAdmin && auth.role !== 'admin'){
+          window.location.href = '/403';
+        }
+      })();
+    </script>
   </head>
   <body
     class="flex min-h-screen flex-col selection:bg-brand/20 selection:text-brand"
+    data-admin-required={requiresAdmin.toString()}
   >
-    <Header />
-    <main class="flex-1">
+    {!isLoginPage && <Header />}
+    
+    <main
+      class:list={[
+        "flex-1 flex flex-col",
+        !isLoginPage && "max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8",
+        isLoginPage && "items-center justify-center p-4 bg-background" 
+      ]}
+    >
       <slot />
     </main>
-    <Footer />
+
+    {!isLoginPage && <Footer />}
   </body>
 </html>

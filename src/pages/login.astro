@@ -3,10 +3,10 @@ import Layout from "../layouts/Layout.astro";
 import LoginForm from "../components/features/auth/LoginForm.svelte";
 ---
 
-<Layout title="Login | Zaltor Intra">
+<Layout title="Login | Zaltor">
     <section class="min-h-[80vh] flex items-center justify-center px-4">
         <div class="w-full max-w-md">
-            <LoginForm />
+            <LoginForm client:load/>
         </div>
     </section>
 </Layout>
