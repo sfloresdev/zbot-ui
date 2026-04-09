@@ -1,0 +1,17 @@
+---
+// src/pages/recover.astro
+import Layout from "../layouts/Layout.astro";
+import RecoverForm from "../components/features/auth/RecoverForm.svelte";
+import AuthBackground from "../components/common/AuthBackground.svelte";
+---
+
+<Layout title="Recuperar Acceso | Zaltor">
+   <AuthBackground client:load transition:persist="auth-bg" />
+   <section
+      class="relative z-10 min-h-[80vh] flex items-center justify-center px-4"
+   >
+      <div class="w-full max-w-md">
+         <RecoverForm client:load />
+      </div>
+   </section>
+</Layout>

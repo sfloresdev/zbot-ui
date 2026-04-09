@@ -1,10 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import LoginForm from "../components/features/auth/LoginForm.svelte";
+import AuthBackground from "../components/common/AuthBackground.svelte";
 ---
 
 <Layout title="Login | Zaltor">
-    <section class="min-h-[80vh] flex items-center justify-center px-4">
+    <AuthBackground client:load transition:persist="auth-bg" />
+    <section class="relative z-10 min-h-[80vh] flex items-center justify-center px-4">
         <div class="w-full max-w-md">
             <LoginForm client:load/>
         </div>

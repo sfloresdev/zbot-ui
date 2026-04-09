@@ -2,6 +2,8 @@
 import "../styles/global.css";
 import Header from "../components/common/Header.astro";
 import Footer from "../components/common/Footer.astro";
+import Sidebar from "../components/common/Sidebar.svelte";
+import { ViewTransitions } from "astro:transitions";
 
 interface Props {
   title: string;
@@ -9,7 +11,7 @@ interface Props {
 }
 
 const { title, requiresAdmin = false } = Astro.props;
-const isLoginPage = Astro.url.pathname === "/login";
+const isAuthPage = Astro.url.pathname === "/login" || Astro.url.pathname === "/recover";
 ---
 
 <!doctype html>
@@ -20,20 +22,25 @@ const isLoginPage = Astro.url.pathname === "/login";
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ViewTransitions />
 
     <script is:inline>
       (function () {
         const session = localStorage.getItem("zbot-session");
         const path = window.location.pathname;
 
+        /* PERMITIR RUTAS PÚBLICAS: /login, /recover */
         if (!session || !JSON.parse(session).isAuthenticated) {
-          if (path !== "/login") window.location.href = "/login";
+          if (path !== "/login" && path !== "/recover") {
+            window.location.href = "/login";
+          }
           return;
         }
 
         const auth = JSON.parse(session);
 
-        if (auth.isAuthenticated && path === '/login') {
+        /* EVITAR RUTAS AUTH SI YA ESTÁ LOGUEADO */
+        if (auth.isAuthenticated && (path === '/login' || path === '/recover')) {
           window.location.href = '/';
           return ;
         }
@@ -46,21 +53,35 @@ const isLoginPage = Astro.url.pathname === "/login";
     </script>
   </head>
   <body
-    class="flex min-h-screen flex-col selection:bg-brand/20 selection:text-brand"
+    class="flex min-h-screen selection:bg-brand/20 selection:text-brand bg-black text-white"
     data-admin-required={requiresAdmin.toString()}
   >
-    {!isLoginPage && <Header />}
-    
-    <main
-      class:list={[
-        "flex-1 flex flex-col",
-        !isLoginPage && "max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8",
-        isLoginPage && "items-center justify-center p-4 bg-background" 
-      ]}
-    >
-      <slot />
-    </main>
-
-    {!isLoginPage && <Footer />}
+    {isAuthPage ? (
+      <main class="flex-1 flex flex-col items-center justify-center p-4 z-10 relative">
+        <slot />
+      </main>
+    ) : (
+      <div class="flex h-screen w-full overflow-hidden bg-black">
+        {/* App Shell Sidebar: rendered fully statically by Astro */}
+        <Sidebar />
+        
+        {/* Main Content Area */}
+        <div class="flex flex-col flex-1 min-w-0 overflow-hidden relative">
+          <Header />
+          <main class="flex-1 overflow-y-auto">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full min-h-full flex flex-col">
+              <div class="flex-1">
+                <slot />
+              </div>
+              
+              {/* Footer always sits at the bottom of the content */}
+              <div class="mt-16">
+                <Footer />
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    )}
   </body>
 </html>

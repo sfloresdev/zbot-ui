@@ -1,114 +1,32 @@
 ---
-import StatusIndicator from "../features/StatusIndicator.svelte";
-import Clock from "./Clock.astro";
-
+// src/components/common/Footer.astro
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="w-full mt-auto">
-  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
-      {/* Columna 1: Logo y descripción */}
-      <div class="flex flex-col gap-4 lg:col-span-2 h-full">
-        <a
-          href="/"
-          class="flex w-fit items-center gap-2 transition-opacity hover:opacity-80"
-        >
-          <div
-            class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-background font-bold font-heading shadow-sm shadow-brand/20"
-          >
-            Z
-          </div>
-          <span class="font-heading font-bold text-xl tracking-tight"
-            >Zaltor Intra</span
-          >
-        </a>
-        <p class="text-sm text-foreground/60 max-w-xs leading-relaxed">
-          La plataforma central de herramientas, documentación y recursos
-          internos para el equipo productivo de Zaltor.
-        </p>
-
-        <div class="mt-auto pt-2">
-          <StatusIndicator client:load status="operational" />
-        </div>
-      </div>
-
-      {/* Columna 2: Recursos y Empleados */}
-      <div class="flex flex-col gap-3">
-        <h3 class="font-heading font-semibold text-foreground tracking-tight">
-          Recursos
-        </h3>
-        <nav class="flex flex-col gap-2.5">
-          <a
-            href="#"
-            class="text-sm font-medium text-foreground/60 hover:text-brand transition-colors"
-            >Documentación Interna</a
-          >
-          <a
-            href="#"
-            class="text-sm font-medium text-foreground/60 hover:text-brand transition-colors"
-            >Directorio de Empleados</a
-          >
-          <a
-            href="#"
-            class="text-sm font-medium text-foreground/60 hover:text-brand transition-colors"
-            >Soporte IT</a
-          >
-        </nav>
-      </div>
-
-      {/* Columna 3: Herramientas de Desarrollo */}
-      <div class="flex flex-col gap-3 h-full">
-        <div>
-          <h3
-            class="font-heading font-semibold text-foreground tracking-tight mb-3"
-          >
-            Tecnología
-          </h3>
-          <nav class="flex flex-col gap-2.5">
-            <a
-              href="#"
-              class="text-sm font-medium text-foreground/60 hover:text-brand transition-colors"
-              >Portal Desarrollador</a
-            >
-            <a
-              href="#"
-              class="text-sm font-medium text-foreground/60 hover:text-brand transition-colors"
-              >Documentación API</a
-            >
-            <a
-              href="#"
-              class="text-sm font-medium text-foreground/60 hover:text-brand transition-colors"
-              >Test</a
-            >
-          </nav>
-        </div>
-
-        <div class="mt-auto pt-4 flex justify-end">
-          <Clock />
-        </div>
-      </div>
+<footer class="w-full mt-auto border-t border-white/5 overflow-hidden">
+  <div class="flex flex-col items-center justify-center pt-24 pb-16 px-4">
+    
+    <!-- Logo Sutil Gigante (Watermark Style) -->
+    <div class="w-full flex justify-center mb-16 sm:mb-24 select-none">
+      <h2 
+        class="text-6xl sm:text-[100px] lg:text-[130px] font-black uppercase tracking-[0.2em] text-white/5 hover:text-white/10 transition-colors duration-1000 cursor-default leading-none"
+        style="font-family: 'Inter', sans-serif; padding-left: 0.2em;"
+      >
+        Zaltor<span class="text-brand/30 hover:text-brand/60 transition-colors duration-500">.</span>
+      </h2>
     </div>
-
-    {/* Barra Inferior (Copyright e Información General) */}
-    <div
-      class="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border/40 pt-8 sm:flex-row"
+    
+    <!-- Legal Info -->
+    <div 
+        class="flex flex-wrap items-center justify-center text-[10px] sm:text-xs text-white/40 tracking-wider uppercase font-medium gap-8 sm:gap-12"
+        style="font-family: 'Geist', sans-serif;"
     >
-      <p class="text-sm text-foreground/50">
-        &copy; {currentYear} Zaltor. Todos los derechos reservados.
-      </p>
-      <div class="flex items-center gap-6">
-        <a
-          href="#"
-          class="text-sm text-foreground/50 hover:text-foreground transition-colors"
-          >Mayorista Soluciones TI</a
-        >
-        <a
-          href="#"
-          class="text-sm text-foreground/50 hover:text-foreground transition-colors"
-          >España · Portugal</a
-        >
-      </div>
+        <a href="#" class="hover:text-white transition-colors">Soporte</a>
+        <span class="w-1 h-1 rounded-full bg-white/20 hidden sm:block"></span>
+        <a href="#" class="hover:text-white transition-colors">Aviso Legal</a>
+        <span class="w-1 h-1 rounded-full bg-white/20 hidden sm:block"></span>
+        <span>&copy; {currentYear} Zaltor</span>
     </div>
+
   </div>
 </footer>
